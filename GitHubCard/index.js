@@ -3,11 +3,9 @@
            https://api.github.com/users/lisaMTayl
 */
 
-// select main dom node
 
 
-
-axios.get('https://api.github.com/users/lisaMTayl')
+axios.get(`https://api.github.com/users/lisaMTayl`)
   .then(data => {
     // Handles Success: here's where we get the results from server
     console.log('response', data);
@@ -15,7 +13,10 @@ axios.get('https://api.github.com/users/lisaMTayl')
     // hold received data
     const gitData = data.data;
 
+    // select main dom node
     const cards = document.querySelector('.cards');
+
+    // append data
     const card = createCards(gitData);
     cards.appendChild(card);
   })
@@ -36,19 +37,8 @@ axios.get('https://api.github.com/users/lisaMTayl')
            create a new component and add it to the DOM as a child of .cards
 */
 
-const followersArray = [
-  'tetondan',
-  'dustinmyers',
-  'justsml',
-  'luishrd',
-  'bigknell'
-];
 
-  followersArray.forEach(data => {
-  const userCard = createCards(data);
-  cards.appendChild(userCard)
-});
-/* Step 5: Now that you have your own card getting added to the DOM, either 
+/* Step 5: Now that you have your own card getting added to the DOM, either
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
           at the bottom of the page. Get at least 5 different Github usernames and add them as
@@ -122,6 +112,22 @@ followers.textContent = object.followers;
   return card;
 }
 
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
+
+followersArray.forEach(gitID => {
+  axios.get(`https://api.github.com/users/${gitID}`)
+    .then( data => {
+      const gitID = data.data;
+      const cards = document.querySelector('.cards');
+      cards.appendChild(createCards(gitID));
+        })
+});
 
 /* List of LS Instructors Github username's: 
   tetondan
@@ -130,3 +136,4 @@ followers.textContent = object.followers;
   luishrd
   bigknell
 */
+
