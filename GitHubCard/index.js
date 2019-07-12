@@ -2,24 +2,25 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/lisaMTayl
 */
+
+// select main dom node
+
+
+
 axios.get('https://api.github.com/users/lisaMTayl')
   .then(data => {
-  // Handles Success: here's where we get the results from server
-  console.log('response', data);
+    // Handles Success: here's where we get the results from server
+    console.log('response', data);
 
-  // hold the data received
-  const gitData = data.data;
+    // hold received data
+    const gitData = data.data;
 
-  //cards.appendChild(gitData);
+    const cards = document.querySelector('.cards');
+    const card = createCards(gitData);
+    cards.appendChild(card);
   })
 
-    // we need to assign each value into the card, right?
-    // gitData.forEach(data => {
-    //   const userCard = createCards(data);
-    //   cards.appendChild(userCard)
-    // })
-
-  .catch(error => {
+   .catch(error => {
     console.log('Oh no, you broke me!', error)
 });
 
@@ -27,14 +28,6 @@ axios.get('https://api.github.com/users/lisaMTayl')
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
 
-    avatar_url
-    name
-    login
-    location
-    html_url
-    followers
-    following
-    bio
 
    Skip to Step 3.
 */
@@ -42,8 +35,19 @@ axios.get('https://api.github.com/users/lisaMTayl')
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
-  // const cards = document.querySelector('.cards');
-  // cards.appendChild(createCards(gitData));
+
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
+
+  followersArray.forEach(data => {
+  const userCard = createCards(data);
+  cards.appendChild(userCard)
+});
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
@@ -54,7 +58,7 @@ axios.get('https://api.github.com/users/lisaMTayl')
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -82,42 +86,43 @@ function createCards (object) {
 const card = document.createElement('div');
 const cardImg = document.createElement('img');
 const cardInfo = document.createElement('div');
-const cardName = document.createElement('h3');
-const cardUser = document.createElement('p');
-const cardLocation = document.createElement('p');
-const cardProfile = document.createElement('p');
-const cardFollowers = document.createElement('p');
-const cardFollowing = document.createElement('p');
+const fullName = document.createElement('h3');
+const username = document.createElement('p');
+const location = document.createElement('p');
+const profile = document.createElement('p');
+const followers = document.createElement('p');
+const following = document.createElement('p');
+const bio = document.createElement('p');
 
 // Setup structure of elements
 card.appendChild(cardImg);
 card.appendChild(cardInfo);
-cardInfo.appendChild(cardUser);
-cardInfo.appendChild(cardName);
-cardInfo.appendChild(cardLocation);
-cardInfo.appendChild(cardProfile);
-cardInfo.appendChild(cardFollowers);
-cardInfo.appendChild(cardFollowing);
+cardInfo.appendChild(username);
+cardInfo.appendChild(fullName);
+cardInfo.appendChild(location);
+cardInfo.appendChild(profile);
+cardInfo.appendChild(followers);
+cardInfo.appendChild(following);
+cardInfo.appendChild(bio);
 
 // Set class names
-// card.classList.add('card');
-cardName.classList.add('name');
-cardUser.classList.add('username');
+card.classList.add('card');
+fullName.classList.add('name');
+username.classList.add('username');
 
-// Set text content
+// Set content
 //???? How to pull specific data for each element from the array?
+cardImg.src = object.avatar_url;
+fullName.textContent = object.name;
+username.textContent = object.login;
+location.textContent = object.location;
+profile.textContent = object.profile_url;
+followers.textContent = object.followers;
 
-
-
-
-
-
-
-
-  return card
+  return card;
 }
 
-const cards = document.querySelector('.cards');
+
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers
